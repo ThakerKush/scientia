@@ -1,0 +1,49 @@
+version: '3.9'
+name: 'scientia'
+services:
+  # gpt-service:
+  #   env_file: .env
+  #   environment:
+  #     - OPENAI_API_KEY=${OPENAI_API_KEY}
+  #   build: ./gptService
+
+
+  postgres:
+    image: postgres:alpine
+    restart: always
+    env_file: .env
+    environment:
+      POSTGRES_USER: '${USERNAME}'
+      POSTGRES_PASSWORD: '${PASSWORD}'
+      POSTGRES_DB: '${DATABASE}'
+    ports:
+      - '${PORT}:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # core-service:
+  #   env_file: .env
+  #   environment:
+  #     - USERNAME=${USERNAME}
+  #     - PASSWORD=${PASSWORD}
+  #     - PORT=${PORT}
+  #     - DATABASE=${DATABASE}
+  #     - HOST=${HOST}
+  #     - DIALECT=${DIALECT}
+  #     - HSECRET=${HSECRET}
+  #     - OPENAI_API_KEY=${OPENAI_API_KEY}
+  #   build: ./coreService
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - postgres
+  #     - gpt-service
+
+volumes:
+  postgres:
+    driver: local

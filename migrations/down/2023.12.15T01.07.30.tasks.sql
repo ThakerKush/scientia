@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS public.tasks CASCADE;
+DROP TYPE IF EXISTS task_type;

@@ -1,0 +1,5 @@
+.env
+/frontend
+__pycache__
+node_modules
+/gptService/*_cache/
